@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -24,9 +25,9 @@ PostDetailView is going to retrieve a single element from the Post table in the 
 """
 
 class PostDetailView(DetailView):
-    template_name="posts/detail.html"
-    model=Post
-    context_object_name="single_post"
+    template_name = "posts/detail.html"
+    model = Post
+    context_object_name = "single_post"
 
 
 class PostCreateView(CreateView):
@@ -34,3 +35,19 @@ class PostCreateView(CreateView):
     model=Post
     context_object_name="new_post"
     fields=["title", "subtitle", "body"]
+
+'''
+PostUpdateView will allow us to update our 
+'''
+class PostUpdateView(UpdateView):
+    template_name = "posts/edit.html"
+    model = Post
+    fields = ["title", "subtitle", "body"]
+
+    """
+    PostDeleteView will allow us to delete an existing record from the db
+    """
+class PostDeleteView(DeleteView):
+    template_name = "posts/delete.html"
+    model = Post
+    success_url = reverse_lazy("post_list")
